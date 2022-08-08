@@ -1,0 +1,94 @@
+echo "# Constant-Velocity-Lab" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/Spulloa/Constant-Velocity-Lab.git
+git push -u origin main
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+position = np.array([1,0,0]) ## units in meters
+velocity = np.array([1.5,0,0]) ## m/s
+distance = np.linalg.norm(position)
+speed = np.linalg.norm(velocity)
+
+Δt = 0.001 ## s(detector)
+t0 = 0 
+tf = 10
+timeline = np.arange(t0,tf,Δt)
+
+# Object A
+
+position = np.array([1,0,0]) ## units in meters
+velocity = np.array([1.5,0,0]) ## m/s
+
+xA_t = np.zeros((len(timeline),3))
+
+xA_t[0] = position
+for t in range(len(timeline)-1):
+    xA_t[t+1] = xA_t[t] + velocity*Δt
+    
+# Graph Motion with Constant Velocity ( Object A )
+
+plt.scatter(timeline, xA_t[:,0])
+plt.title("Motion with Constant Velocity")
+plt.xlabel("Time (s)")
+plt.ylabel("Position (m)")
+plt.show()
+
+# Object B
+
+position = np.array([np.pi,0,0]) ### units in meters
+velocity = np.array([-0.5,0,0]) ### m/s
+
+xB_t = np.zeros((len(timeline),3))
+
+xB_t[0] = position
+for t in range(len(timeline)-1):
+    xB_t[t+1] = xB_t[t] + velocity*Δt
+    
+# Graph Motion with Constant Velocity ( Object B )
+
+plt.scatter(timeline, xB_t[:,0])
+plt.title("Motion with Constant Velocity")
+plt.xlabel("Time (s)")
+plt.ylabel("Position (m)")
+plt.show() 
+   
+# Graph Instantaneous Velocity ( Both Objects )
+
+dxA = np.gradient(xA_t[:,0])/Δt
+dxB = np.gradient(xB_t[:,0])/Δt
+
+plt.scatter(timeline, dxB)
+plt.ylim([-0.55,-0.45])
+plt.title("Instantaneous Velocity")
+plt.xlabel("Time (s)")
+plt.ylabel("Velocity (m)")
+plt.show()
+
+plt.scatter(timeline, dxA)
+plt.ylim([1.48,1.52])
+plt.title("Instantaneous Velocity")
+plt.xlabel("Time (s)")
+plt.ylabel("Velocity (m)")
+plt.show()
+
+# Calculte Average Velocity 
+
+print((xA_t[-1]- xA_t[0])/(timeline[-1] - timeline[0]));
+print((xB_t[-1]- xB_t[0])/(timeline[-1] - timeline[0]));
+
+# Conclusion: for constant velocity, average velocity = instantaneous velocity
+# Started the lab creating intial code designating our variables for position, velocity, distance and speed. 
+# Created a code to calculate Δt, the timestep measured in seconds
+# Created a graph to show motion with constant velocity with time in the x-axis and position in the y-axis (Figure 1). 
+# The slope of the graph (Figure 1) depicts the average velocity.
+# This slope of average velocity can be calculated using the formula 'Average Velocity = Displacement(Δx) / Time Elapsed (Δt). 
+# Figure 2 of Lab 1 shows the change in average velocity when we set inital position to the value of pi and velocity at -0.5.
+# In both Figure 1 and Figure 2, the  velocity is depicted in relation to the change in position and change in time 
+# Figure 3, the horizontal line shows velocity remaining constant at the value, in this instance the velocity is set at 1.5 (Figure 3.A) and -0.5 (Figure 3.B).
+# Calculated average velocity using these formulas (print((xA_t[-1]- xA_t[0])/(timeline[-1] - timeline[0]));
+# print((xB_t[-1]- xB_t[0])/(timeline[-1] - timeline[0]));) which, as mentioned above, is position displacement divided by time elapsed. 
